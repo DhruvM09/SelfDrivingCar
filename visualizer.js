@@ -7,7 +7,6 @@ class Visualizer{
         const height=ctx.canvas.height-margin*2;
 
         const levelHeight=height/network.levels.length;
-
         for(let i=network.levels.length-1;i>=0;i--){
             const levelTop=top+
                 lerp(
@@ -113,9 +112,9 @@ class Visualizer{
                 ctx.fillStyle="black";
                 ctx.strokeStyle="white";
                 ctx.font=(nodeRadius*1.1)+"px Arial";
-                ctx.fillText(outputs[i],x,top+nodeRadius*0.1);
+                ctx.fillText(outputs[i].toFixed(1),x,top+nodeRadius*0.1);
                 ctx.lineWidth=0.3;
-                ctx.strokeText(outputs[i],x,top+nodeRadius*0.1);
+                ctx.strokeText(outputs[i].toFixed(1),x,top+nodeRadius*0.1);
             }
 
         }

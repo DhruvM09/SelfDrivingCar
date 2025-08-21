@@ -30,11 +30,10 @@ class Level{
             for(let j = 0; j < level.inputs.length; j++){
                 sum += level.inputs[j] * level.weights[j][i];
             }
-            if(sum > level.biases[i]){
-                level.outputs[i] = 1; // Activation function (step function)
-            }else{
-                level.outputs[i] = 0;
-            }
+
+            let z = sum + level.biases[i];
+            level.outputs[i] = Math.tanh(z); // Activation function
+            
         }
         return level.outputs;
 

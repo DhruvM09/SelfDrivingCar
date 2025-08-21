@@ -33,7 +33,7 @@ numberOfCars.addEventListener("change", function() {
     this.value = Num;
     localStorage.setItem("N", JSON.stringify(Num));
 });
-const cars = generateCars(N)
+let cars = generateCars(N)
 let bestCar = cars[0];
 if(localStorage.getItem("bestBrain")){
     for(let i = 0; i < cars.length; i++){
@@ -49,7 +49,19 @@ slider.oninput = function() {
   localStorage.setItem("mutation", JSON.stringify(mutation));
 }
 
-let traffic = [];
+let traffic = [new Car(road.getLaneCenter(0), -300, 30, 50, "DUMMY", 2),
+                new Car(road.getLaneCenter(1), -300, 30, 50, "DUMMY", 2),
+                new Car(road.getLaneCenter(0), -500, 30, 50, "DUMMY", 2),
+                new Car(road.getLaneCenter(2), -500, 30, 50, "DUMMY", 2),
+                new Car(road.getLaneCenter(2), -700, 30, 50, "DUMMY", 2),
+                new Car(road.getLaneCenter(1), -700, 30, 50, "DUMMY", 2),
+                new Car(road.getLaneCenter(0), -900, 30, 50, "DUMMY", 2),
+                new Car(road.getLaneCenter(0), -900, 30, 50, "DUMMY", 2),
+
+
+];
+
+localStorage.setItem("traffic", JSON.stringify(traffic));
 function addTrafficCar() {
     const lane = parseInt(document.getElementById("lanePicker").value);
     const distance = parseInt(document.getElementById("carDistance").value);
@@ -67,16 +79,16 @@ function clearTraffic() {
     traffic = [];
     localStorage.removeItem("traffic");
 }
-
+const randomizer = new Randomizer(bestCar);
 // Add this after localStorage checks at the start
-if(localStorage.getItem("traffic")) {
-    const savedTraffic = JSON.parse(localStorage.getItem("traffic"));
-    savedTraffic.forEach(element => {
-       traffic.push(
-            new Car(element.initialX, element.initialY, element.width, element.height, "DUMMY", 2)
-        ); 
-    });
-}
+// if(localStorage.getItem("traffic")) {
+//     const savedTraffic = JSON.parse(localStorage.getItem("traffic"));
+//     savedTraffic.forEach(element => {
+//        traffic.push(
+//             new Car(element.initialX, element.initialY, element.width, element.height, "DUMMY", 2)
+//         ); 
+//     });
+// }
 function save(){
     localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
 }
@@ -84,18 +96,22 @@ function discard(){
     localStorage.removeItem("bestBrain");
 }
 function generateCars(N){
-    const cars = [];
+    let carsT = [];
     for(let i = 0; i < N; i++){
-        cars.push(new Car(road.getLaneCenter(1), 100 ,30  ,50, "AI"))
+        carsT.push(new Car(road.getLaneCenter(1), 100 ,30  ,50, "AI"))
     }
-    return cars;
+    return carsT;
 }
 function animate(time){
+    randomizer.randomizeCars(traffic, road, bestCar);
     for(let i = 0; i < traffic.length; i++){
         traffic[i].update(road.borders , []);
     }
     for(let i = 0; i < cars.length; i++){
         cars[i].update(road.borders , traffic);
+        if(cars[i].y > bestCar.y + 100){
+            cars[i].damaged = true;
+        }
     }
     bestCar = cars.find(c => c.y === Math.min(...cars.map(c => c.y)));
 
