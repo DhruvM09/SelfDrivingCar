@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = "style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div id = "vButtons">
+        <button id = "save" onclick="save()">Save</button>
+        <button id = "discard" onclick = "discard()">Discard</button>
+        <button id="restart" onclick="location.reload()">Restart</button>
+        <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="20" class="slider" id="mutation">
+            <p>Mutation Rate: <span id="mutationRate">20</span>%</p>
+
+        </div>
+        <p>Number of Cars :<input type="text" id="N" name="Number of Cars" placeholder="Number of Cars" value="1"> </p>
+          <!--  traffic controls -->
+        <div id="trafficControls">
+            <h3>Add Traffic Car</h3>
+            <select id="lanePicker">
+                <option value="0">Lane 1</option>
+                <option value="1">Lane 2</option>
+                <option value="2">Lane 3</option>
+            </select>
+            <input type="number" id="carDistance" placeholder="Distance ahead">
+            <button onclick="addTrafficCar()" type="button">Add Car</button>
+            <button onclick="clearTraffic()">Clear Traffic</button>
+        </div>
+    </div>
+    <canvas id = "myCanvas"></canvas>
+    <canvas id = "networkCanvas"></canvas>
+
+
+
+    <script src="visualizer.js"></script>
+    <script src="network.js"></script>
+    <script src="utils.js"></script>
+    <script src="sensor.js"></script>
+    <script src="road.js"></script>
+    <script src="controls.js"></script>
+    <script src="car.js"></script>
+    <script src="main.js"></script>
+    
+</body>
+</html>
